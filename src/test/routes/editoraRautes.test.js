@@ -52,10 +52,14 @@ describe('GET em /editoras/id', () => {
 });
 
 describe('PUT em /editoras/id', () => {
-  it('Deve alterar o campo nome', async () => {
+  it.each([
+    ['nome', { nome: 'Casa do codigo' }],
+    ['cidade', { cidade: 'SP' }],
+    ['email', { email: 'cdc@cdc.com'}],
+  ])('Deve alterar o campo %s', async (cheve, param) => {
     await request(app)
       .put(`/editoras/${idResposta}`)
-      .send({ nome: 'Casa do Codigo' })
+      .send(param)
       .expect(204);
   });
 });
