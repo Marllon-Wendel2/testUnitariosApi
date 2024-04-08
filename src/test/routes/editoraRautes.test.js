@@ -35,13 +35,11 @@ describe('POST em /editoras', () => {
       .expect(201);
     idResposta = resposta.body.content.id;
   });
-});
-
-describe('Delete em /editoras', () => {
-  it('Delete o recurso adicionado', async () => {
+  it('Deve não adicionar nada ao passa body vazio', async () => {
     await request(app)
-      .delete(`/editoras/${idResposta}`)
-      .expect(200);
+      .post('/editoras')
+      .send({})
+      .expect(400);
   });
 });
 
@@ -49,6 +47,23 @@ describe('GET em /editoras/id', () => {
   it('Deve retorna o recurso selecionado', async () => {
     await request(app)
       .get(`/editoras/${idResposta}`)
+      .expect(200);
+  });
+});
+
+describe('PUT em /editoras/id', () => {
+  it('Deve alterar o campo nome', async () => {
+    await request(app)
+      .put(`/editoras/${idResposta}`)
+      .send({ nome: 'Casa do Codigo' })
+      .expect(204);
+  });
+});
+
+describe('Delete em /editoras', () => {
+  it('Delete o recurso adicionado', async () => {
+    await request(app)
+      .delete(`/editoras/${idResposta}`)
       .expect(200);
   });
 });
