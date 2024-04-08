@@ -23,4 +23,21 @@ describe('Testando o modelo Editora', () => {
       expect(dados.nome).toBe('CDC');
     });
   });
+
+  it('Deve salvar no BD usando sintaxe moderna', async () => {
+    const editora = new Editora(objetoEditora);
+
+    const dados = await editora.salvar();
+
+    const retornado = await Editora.pegarPeloId(dados.id);
+
+    expect(retornado).toEqual(
+      expect.objectContaining({
+        id: expect.any(Number),
+        ...objetoEditora,
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+      }),
+    );
+  });
 });
